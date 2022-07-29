@@ -3,10 +3,12 @@ import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import { useState } from "react";
+import { Box, TextField, MenuItem } from '@mui/material'
+import {useSelector, useDispatch} from 'react-redux';
+import { useEffect, useState } from "react";
+import { DatePicker } from '@mui/x-date-pickers';
 import TaskPlayGround from "../components/TaskPlayGround";
+import createTaskAction from "../actions/createTaskAction";
 
 export default function TaskManagement() {
     const defaultValues={
@@ -17,7 +19,8 @@ export default function TaskManagement() {
     }
 
     const [formValues,setFormValues]= useState(defaultValues);
-
+    const dispatch = useDispatch()
+    const testingRedux = useSelector(state => state)
     const handleInputChange=(e)=>{
         const{name,value} = e.target;
         setFormValues({...formValues,
@@ -27,7 +30,17 @@ export default function TaskManagement() {
         
             const handleSubmit=(event)=>{
         event.preventDefault();
-        console.log(formValues);            }
+       dispatch(createTaskAction(formValues))          
+      }
+         useEffect(()=>{
+              console.log(testingRedux);
+          },[testingRedux])
+
+          const handleChange = (event) => {
+            const {name,value} = event.target;
+
+            setFormValues({...formValues,[name]:value})
+          }
 
     return(
         <>
@@ -46,37 +59,54 @@ export default function TaskManagement() {
         </Grid>
         <Grid item xs={2} sm={4} md={4}>
           <FormControl>
-            <InputLabel htmlFor="password" >Stage *</InputLabel>
-            <Input id="stage"  name="stage" value={formValues.stage} onChange={handleInputChange} required/>
-            
+          <Box width='250px'>
+      <TextField
+        label='Select Stage'
+        select
+        size='small'
+        name="stage"
+        required
+        color='secondary'
+        helperText='Please select the Stage'
+        value={formValues.stage}
+        onChange={handleChange}>
+        <MenuItem value='backlog'>Backlog</MenuItem>
+       
+      </TextField>
+    </Box>
           </FormControl>
         </Grid>
         <Grid item xs={2} sm={4} md={4}>
-          {/* <FormControl>
-            <InputLabel htmlFor="password" >Priority *</InputLabel>
-            <Input id="priority"  name="priority" value={formValues.priority} onChange={handleInputChange} required/>
-            
-          </FormControl> */}
-          <FormControl fullWidth>
-  <InputLabel id="demo-simple-select-label">Priority *</InputLabel>
-  <Select
-    labelId="demo-simple-select-label"
-    id="demo-simple-select"
-    value={formValues.priority}
-    label="Priority"
-    onChange={handleInputChange}
-  >
-    <MenuItem value="low">Low</MenuItem>
-    <MenuItem value="medium">Medium</MenuItem>
-    <MenuItem value="high">High</MenuItem>
-  </Select>
+          <FormControl >
+          <Box width='250px'>
+      <TextField
+        label='Select Priority'
+        select
+        size='small'
+        name="priority"
+        required
+        color='secondary'
+        helperText='Please select the Priority'
+        value={formValues.priority}
+        onChange={handleChange}>
+        <MenuItem value='low'>Low</MenuItem>
+        <MenuItem value='medium'>Medium</MenuItem>
+        <MenuItem value='high'>High</MenuItem>
+      </TextField>
+    </Box>
 </FormControl>
         </Grid>
         <Grid item xs={2} sm={4} md={4}>
           <FormControl>
-            <InputLabel htmlFor="password" >Deadline *</InputLabel>
-            <Input id="deadline"  name="deadline" type="date" value={formValues.deadline} onChange={handleInputChange} required/>
-            
+          <DatePicker
+        label='Deadline '
+        required
+        value={formValues.deadline}
+        onChange={newValue => {
+          setFormValues({...formValues,deadline:newValue})
+        }}
+        renderInput={params => <TextField {...params} />}
+      />
           </FormControl>
         </Grid>
       </Grid>

@@ -3,8 +3,9 @@ import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import {useSelector, useDispatch} from 'react-redux';
+import signUpAction from "../actions/signUpAction";
 export default function Signup() {
 
     const defaultValues={
@@ -17,7 +18,8 @@ export default function Signup() {
     }
 
     const [formValues,setFormValues]= useState(defaultValues);
-
+    const dispatch = useDispatch()
+    const testingRedux = useSelector(state => state)
     const handleInputChange=(e)=>{
 const{name,value} = e.target;
 setFormValues({...formValues,
@@ -27,9 +29,13 @@ setFormValues({...formValues,
 
     const handleSubmit=(event)=>{
 event.preventDefault();
-console.log(formValues);
-localStorage.setItem('UsersDB', JSON.stringify(formValues));
+dispatch(signUpAction(formValues))
+//setFormValues({});
     }
+
+    // useEffect(()=>{
+    //     console.log(testingRedux);
+    // },[testingRedux])
   return (
     <main style={{ padding: "1rem 0" }}>
       <h2>Signup</h2>

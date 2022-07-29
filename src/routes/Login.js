@@ -3,8 +3,10 @@ import InputLabel from "@mui/material/InputLabel";
 import Input from "@mui/material/Input";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import {useSelector, useDispatch} from 'react-redux';
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import signInAction from "../actions/signInAction";
 
 
 export default function Login() {
@@ -15,7 +17,8 @@ export default function Login() {
     }
 
     const [formValues,setFormValues]= useState(defaultValues);
-
+    const dispatch = useDispatch()
+    const testingRedux = useSelector(state => state)
     const handleInputChange=(e)=>{
         const{name,value} = e.target;
         setFormValues({...formValues,
@@ -25,9 +28,12 @@ export default function Login() {
         
             const handleSubmit=(event)=>{
         event.preventDefault();
-        console.log(formValues);
+        dispatch(signInAction(formValues));
         navigate('/dashboard')
             }
+          //   useEffect(()=>{
+          //     console.log(testingRedux);
+          // },[testingRedux])
     return (
       <main style={{ padding: "1rem 0" }}>
         <h2>Login</h2>

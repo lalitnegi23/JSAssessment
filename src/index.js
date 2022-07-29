@@ -9,10 +9,15 @@ import Signup from './routes/Signup';
 import Login from './routes/Login';
 import Dashboard from './routes/Dashboard';
 import TaskManagement from './routes/TaskManagement';
-
+import { Provider } from 'react-redux'
+import store from './store'
+import AdapterDateFns from '@date-io/date-fns';
+import { LocalizationProvider } from '@mui/x-date-pickers';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <Provider store={store}>
   <React.StrictMode>
+  <LocalizationProvider dateAdapter={AdapterDateFns}>
     <BrowserRouter>
     <Routes>
     <Route path="/" element={<App />} />
@@ -22,8 +27,9 @@ root.render(
       <Route path="taskmanagement" element={<TaskManagement />} />
       </Routes>
     </BrowserRouter>
-    
+    </LocalizationProvider>
   </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
