@@ -13,10 +13,13 @@ import { Provider } from 'react-redux'
 import store from './store'
 import AdapterDateFns from '@date-io/date-fns';
 import { LocalizationProvider } from '@mui/x-date-pickers';
+import {DndProvider } from "react-dnd";
+import {HTML5Backend} from "react-dnd-html5-backend";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
   <React.StrictMode>
+<DndProvider backend={HTML5Backend}>
   <LocalizationProvider dateAdapter={AdapterDateFns}>
     <BrowserRouter>
     <Routes>
@@ -28,6 +31,7 @@ root.render(
       </Routes>
     </BrowserRouter>
     </LocalizationProvider>
+    </DndProvider>
   </React.StrictMode>
   </Provider>
 );
