@@ -97,11 +97,17 @@ setOnGoingList(ongoingList);
     const addTaskToDone=(id,b)=>{
        setDoneList([...doneList,b]) 
     }
+    const styles = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '20vh',
+      };
 
     return(
         <>
         
-        <Grid container marginTop={5} >
+        <Grid container marginTop={5} style={styles} >
             <div ref={dropBackLog}>
       <Grid item xs marginRight={3}>
         <h2>Backlog</h2>

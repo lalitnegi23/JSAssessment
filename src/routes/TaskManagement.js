@@ -41,10 +41,16 @@ export default function TaskManagement() {
 
             setFormValues({...formValues,[name]:value})
           }
+          const styles = {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '20vh',
+          };
 
     return(
         <>
-        <header>Task Management</header>
+        <h2 style={styles}>Task Management</h2>
         <form onSubmit={handleSubmit}>
         <Grid
         container
@@ -110,7 +116,7 @@ export default function TaskManagement() {
           </FormControl>
         </Grid>
       </Grid>
-      <Grid item marginTop={4}>
+      <Grid item marginTop={4} style={styles}>
         <Button variant="contained" type="submit">Create Task</Button>
       </Grid>
         </form>

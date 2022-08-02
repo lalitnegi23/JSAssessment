@@ -32,13 +32,15 @@ event.preventDefault();
 dispatch(signUpAction(formValues))
 //setFormValues({});
     }
-
-    // useEffect(()=>{
-    //     console.log(testingRedux);
-    // },[testingRedux])
+    const styles = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '20vh',
+      };
   return (
     <main style={{ padding: "1rem 0" }}>
-      <h2>Signup</h2>
+      <h2 style={styles}>Signup</h2>
       <form onSubmit={handleSubmit}>
       <Grid
         container
@@ -89,7 +91,7 @@ dispatch(signUpAction(formValues))
         </Grid>
         
       </Grid>
-      <Grid item marginTop={4}>
+      <Grid item marginTop={4} style={styles}>
         <Button variant="contained" type="submit">Submit</Button>
       </Grid>
       
