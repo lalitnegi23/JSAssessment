@@ -7,6 +7,6 @@ const rootReducer = combineReducers ({
     signInReducer,
     signUpReducer,
     createTaskReducer,
-    saveListReducer
+    saveListReducer,
 });
 export default rootReducer;

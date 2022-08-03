@@ -6,6 +6,10 @@ import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import {useSelector, useDispatch} from 'react-redux';
 import signUpAction from "../actions/signUpAction";
+import {Snackbar} from "@mui/material";
+import { NavLink } from "react-router-dom";
+import 'react-phone-number-input/style.css'
+import PhoneInput from 'react-phone-number-input'
 export default function Signup() {
 
     const defaultValues={
@@ -14,23 +18,37 @@ export default function Signup() {
         email:"",
         contact:"",
         password:"",
-        file:null
+        file:""
     }
 
     const [formValues,setFormValues]= useState(defaultValues);
+    
     const dispatch = useDispatch()
     const testingRedux = useSelector(state => state)
+    const [open,setOpen] = useState(false);
+        useEffect(()=>{
+        console.log(testingRedux);
+    },testingRedux)
     const handleInputChange=(e)=>{
 const{name,value} = e.target;
 setFormValues({...formValues,
 [name]:value});
     }
 
-
     const handleSubmit=(event)=>{
+      console.log(formValues)
 event.preventDefault();
+//console.log(formValues);
 dispatch(signUpAction(formValues))
+setOpen(true);
 //setFormValues({});
+    }
+
+    const handleClose=(e,reason)=>{
+if(reason==="clickaway"){
+  return
+}
+setOpen(false);
     }
     const styles = {
         display: 'flex',
@@ -67,11 +85,19 @@ dispatch(signUpAction(formValues))
         
           </FormControl>
         </Grid>
-        <Grid item xs={2} sm={4} md={4}>
+        <Grid item xs={2} sm={4} md={4} marginTop={3}>
           <FormControl>
-            <InputLabel htmlFor="contactnumber">Contact Number</InputLabel>
-            <Input id="contactnumber" type="number" name="contact" value={formValues.contact} onChange={handleInputChange}/>
-            
+            <PhoneInput
+            name="contact"
+      placeholder="Enter phone number"
+      value={formValues?.contact}
+    onChange={phone =>
+      
+        setFormValues({...formValues,
+          contact:phone})
+      
+      }
+      />
           </FormControl>
         </Grid>
         <Grid item xs={2} sm={4} md={4}>
@@ -81,7 +107,7 @@ dispatch(signUpAction(formValues))
             
           </FormControl>
         </Grid>
-        <Grid item xs={2} sm={4} md={4}>
+        <Grid item xs={2} sm={4} md={4} marginTop={1}>
           <FormControl>
             {/* <InputLabel htmlFor="profileimage">Profile Image</InputLabel> */}
             <Input id="profileimage" type="file" name="file" value={formValues.file} onChange={(e)=>setFormValues({...formValues,
@@ -93,9 +119,24 @@ dispatch(signUpAction(formValues))
       </Grid>
       <Grid item marginTop={4} style={styles}>
         <Button variant="contained" type="submit">Submit</Button>
+        <Snackbar
+        message="User Signed Up Succesfully!"
+        autoHideDuration={3000}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={
+          {
+            vertical:"top",
+            horizontal:"right"
+          }
+        }
+        />
       </Grid>
       
       </form>
+      <div>
+      <div><NavLink to="/login">Continue to Login</NavLink></div>
+      </div>
     </main>
   );
 }

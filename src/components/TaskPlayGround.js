@@ -10,31 +10,36 @@ import {useSelector, useDispatch} from 'react-redux';
 import {useDrop} from "react-dnd";
 import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
-import {saveBackLogListAction} from "../actions/saveListAction";
+import {saveBackLogListAction, saveDoneListAction, saveOngoingListAction, saveTodoListAction} from "../actions/saveListAction";
+import  { removeBackLogListAction, removeDoneListAction, removeOngoingListAction, removeTodoListAction } from "../actions/removeFromListAction";
 
 export default function TaskPlayGround(){
 
     const tasksList = useSelector(state => state?.createTaskReducer?.tasks)
-    const [backLogList,setBackLogList] = useState([]);
-    const [toDoList,setToDoList] = useState([]);
-    const [doneList,setDoneList] = useState([]);
-    const [onGoingList,setOnGoingList] = useState([]);
+    const bLogList = useSelector(state => state?.saveListReducer?.backlogList)
+    const toDoLists = useSelector(state => state?.saveListReducer?.todoList)
+    const doneLists = useSelector(state=> state?.saveListReducer?.doneList)
+    const ongoingLists = useSelector(state=>state?.saveListReducer.ongoingList)
+    // const [backLogList,setBackLogList] = useState([]);
+    // const [toDoList,setToDoList] = useState([]);
+    // const [doneList,setDoneList] = useState([]);
+    // const [onGoingList,setOnGoingList] = useState([]);
     const dispatch = useDispatch();
-    useEffect(()=>{
+//     useEffect(()=>{
         
-        const backlogList = tasksList?.filter(task=>task?.stage==="backlog")
+//         const backlogList = tasksList?.filter(task=>task?.stage==="backlog")
         
-    const todoList = tasksList?.filter(task=>task?.stage==="todo")
+//     const todoList = tasksList?.filter(task=>task?.stage==="todo")
     
-    const donList = tasksList?.filter(task=>task?.stage==="done")
+//     const donList = tasksList?.filter(task=>task?.stage==="done")
     
-    const ongoingList = tasksList?.filter(task=>task?.stage==="ongoing")
-    dispatch(saveBackLogListAction(backlogList))
-setBackLogList(backlogList);
-setToDoList(todoList);
-setDoneList(donList);
-setOnGoingList(ongoingList);
-    },[tasksList])
+//     const ongoingList = tasksList?.filter(task=>task?.stage==="ongoing")
+    
+// setBackLogList(backlogList);
+// setToDoList(todoList);
+// setDoneList(donList);
+// setOnGoingList(ongoingList);
+//     },[tasksList])
     
     const [{isOverBackLog},dropBackLog] = useDrop(()=>({
         accept:"task",
@@ -45,7 +50,23 @@ setOnGoingList(ongoingList);
 
     }))
     const addTaskToBackLog=(id,b)=>{
-       setBackLogList([...backLogList,b]) 
+        console.log(b);
+        const newObj = JSON.parse(JSON.stringify(b));
+        newObj.stage="backlog";
+        dispatch(saveBackLogListAction(newObj))
+        //dispatch(removeFromListAction(b))
+        if(b?.stage==="todo"){
+            dispatch(removeTodoListAction(b))
+        }
+        else if(b?.stage==="ongoing"){
+            dispatch(removeOngoingListAction(b))
+        }
+        else if(b?.stage==="done"){
+            dispatch(removeDoneListAction(b))
+        }
+
+
+       //setBackLogList([...backLogList,b]) 
     }
 
 
@@ -61,15 +82,29 @@ setOnGoingList(ongoingList);
 
     const addTaskToList=(id,b)=>{
         console.log(b);
-       // console.log(backLogList);
-        //const task = backLogList.filter((t,index)=>id === index)
-        
-        setToDoList([...toDoList,b])
-        if (b?.stage==="backlog"){
-            setBackLogList((backLogList)=>backLogList.filter((item,index)=>index!==id))
+        const newObj = JSON.parse(JSON.stringify(b));
+        newObj.stage="todo";
+        dispatch(saveTodoListAction(newObj))
+        if(b?.stage==="backlog"){
+            dispatch(removeBackLogListAction(b))
         }
+        else if(b?.stage==="ongoing"){
+            dispatch(removeOngoingListAction(b))
+        }
+        else if(b?.stage==="done"){
+            dispatch(removeDoneListAction(b))
+        }
+        
+        
+        
+        
+        //setToDoList([...toDoList,b])
+
+        // if (b?.stage==="backlog"){
+        //     setBackLogList((backLogList)=>backLogList.filter((item,index)=>index!==id))
+        // }
     
-        // console.log(toDoList)
+       
     }
 
 
@@ -82,7 +117,23 @@ setOnGoingList(ongoingList);
 
     }))
     const addTaskToONG=(id,b)=>{
-       setOnGoingList([...onGoingList,b]) 
+        console.log(b);
+        const newObj = JSON.parse(JSON.stringify(b));
+        newObj.stage="ongoing";
+        dispatch(saveOngoingListAction(newObj))
+        //dispatch(removeFromListAction(b))
+        if(b?.stage==="todo"){
+            dispatch(removeTodoListAction(b))
+        }
+        else if(b?.stage==="backlog"){
+            dispatch(removeBackLogListAction(b))
+        }
+        else if(b?.stage==="done"){
+            dispatch(removeDoneListAction(b))
+        }
+
+
+       //setOnGoingList([...onGoingList,b]) 
     }
     
 
@@ -95,7 +146,24 @@ setOnGoingList(ongoingList);
 
     }))
     const addTaskToDone=(id,b)=>{
-       setDoneList([...doneList,b]) 
+        console.log(b);
+        const newObj = JSON.parse(JSON.stringify(b));
+        newObj.stage="done";
+        dispatch(saveDoneListAction(newObj))
+        //dispatch(removeFromListAction(b))
+
+        if(b?.stage==="todo"){
+            dispatch(removeTodoListAction(b))
+        }
+        else if(b?.stage==="backlog"){
+            dispatch(removeBackLogListAction(b))
+        }
+        else if(b?.stage==="ongoing"){
+            dispatch(removeOngoingListAction(b))
+        }
+
+
+       //setDoneList([...doneList,b]) 
     }
     const styles = {
         display: 'flex',
@@ -111,7 +179,7 @@ setOnGoingList(ongoingList);
             <div ref={dropBackLog}>
       <Grid item xs marginRight={3}>
         <h2>Backlog</h2>
-        {backLogList.map((b,index)=>{
+        {bLogList?.map((b,index)=>{
             return(
                 <>
                 <Task key={index} b={b} id={index}/>
@@ -127,7 +195,7 @@ setOnGoingList(ongoingList);
       <div ref={drop}>
       <Grid item xs marginLeft={3}>
         <h2>Todo</h2>
-        {toDoList?.map((b,index)=>{
+        {toDoLists?.map((b,index)=>{
             return(
                 <>
                 <Task key={index} b={b} id={index}/>
@@ -143,7 +211,7 @@ setOnGoingList(ongoingList);
       <div ref={dropONG}>
       <Grid item xs marginLeft={3}>
       <h2>  Ongoing</h2>
-      {onGoingList?.map((b,index)=>{
+      {ongoingLists?.map((b,index)=>{
             return(
                 <>
                 <Task key={index} b={b} id={index}/>
@@ -157,7 +225,7 @@ setOnGoingList(ongoingList);
       <div ref={dropDone}>
       <Grid item xs marginLeft={3}>
         <h2>Done</h2>
-        {doneList?.map((b,index)=>{
+        {doneLists?.map((b,index)=>{
             return(
                 <>
                 <Task key={index} b={b} id={index}/>

@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { DatePicker } from '@mui/x-date-pickers';
 import TaskPlayGround from "../components/TaskPlayGround";
 import createTaskAction from "../actions/createTaskAction";
+import { saveBackLogListAction } from "../actions/saveListAction";
+import { NavLink } from "react-router-dom";
 
 export default function TaskManagement() {
     const defaultValues={
@@ -30,7 +32,8 @@ export default function TaskManagement() {
         
             const handleSubmit=(event)=>{
         event.preventDefault();
-       dispatch(createTaskAction(formValues))          
+       dispatch(createTaskAction(formValues))   
+       dispatch(saveBackLogListAction(formValues))       
       }
          useEffect(()=>{
               console.log(testingRedux);
@@ -121,7 +124,7 @@ export default function TaskManagement() {
       </Grid>
         </form>
    
-
+        <NavLink to="/dashboard">Go To Dashboard</NavLink>
    <TaskPlayGround/>
         </>
     )
