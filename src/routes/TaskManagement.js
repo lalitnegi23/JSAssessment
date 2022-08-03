@@ -11,6 +11,7 @@ import TaskPlayGround from "../components/TaskPlayGround";
 import createTaskAction from "../actions/createTaskAction";
 import { saveBackLogListAction } from "../actions/saveListAction";
 import { NavLink } from "react-router-dom";
+import { removeBackLogListAction } from "../actions/removeFromListAction";
 
 export default function TaskManagement() {
     const defaultValues={
@@ -31,10 +32,18 @@ export default function TaskManagement() {
         
         
             const handleSubmit=(event)=>{
+
         event.preventDefault();
        dispatch(createTaskAction(formValues))   
        dispatch(saveBackLogListAction(formValues)) 
-       setFormValues(defaultValues)      
+       setFormValues(defaultValues)     
+       
+       
+
+      //  //new Code
+      //  if(b?.editing===true){
+      //   dispatch(removeBackLogListAction(b))
+       //}
       }
          useEffect(()=>{
               console.log(testingRedux);
