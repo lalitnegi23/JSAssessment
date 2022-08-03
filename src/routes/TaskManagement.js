@@ -33,7 +33,8 @@ export default function TaskManagement() {
             const handleSubmit=(event)=>{
         event.preventDefault();
        dispatch(createTaskAction(formValues))   
-       dispatch(saveBackLogListAction(formValues))       
+       dispatch(saveBackLogListAction(formValues)) 
+       setFormValues(defaultValues)      
       }
          useEffect(()=>{
               console.log(testingRedux);

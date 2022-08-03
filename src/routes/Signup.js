@@ -26,9 +26,9 @@ export default function Signup() {
     const dispatch = useDispatch()
     const testingRedux = useSelector(state => state)
     const [open,setOpen] = useState(false);
-        useEffect(()=>{
-        console.log(testingRedux);
-    },testingRedux)
+    //     useEffect(()=>{
+    //     console.log(testingRedux);
+    // },testingRedux)
     const handleInputChange=(e)=>{
 const{name,value} = e.target;
 setFormValues({...formValues,
@@ -36,12 +36,12 @@ setFormValues({...formValues,
     }
 
     const handleSubmit=(event)=>{
-      console.log(formValues)
+      //console.log(formValues)
 event.preventDefault();
 //console.log(formValues);
 dispatch(signUpAction(formValues))
 setOpen(true);
-//setFormValues({});
+setFormValues(defaultValues);
     }
 
     const handleClose=(e,reason)=>{

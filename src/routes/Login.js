@@ -37,6 +37,7 @@ export default function Login() {
         event.preventDefault();
         dispatch(signInAction(formValues));
         navigate('/dashboard')
+        setFormValues(defaultValues);
             }
           
     return (

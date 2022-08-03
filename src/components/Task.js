@@ -2,8 +2,7 @@ import {useDrag} from "react-dnd";
 import Grid from "@mui/material/Grid";
 import {AiFillDelete} from "react-icons/ai";
 import {AiFillEdit} from "react-icons/ai";
-import {AiFillBackward} from "react-icons/ai";
-import {AiFillForward} from "react-icons/ai";
+import {Dialog,DialogActions,DialogTitle,DialogContent,DialogContentText} from "@mui/material"
 import { removeBackLogListAction, removeDoneListAction, removeOngoingListAction, removeTodoListAction } from "../actions/removeFromListAction";
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -34,7 +33,7 @@ export default function Task({b,id}){
   <p>{b?.name}</p>
   </Grid>
   <Grid item xs={2}>
-  <AiFillEdit/>
+  <AiFillEdit />
   </Grid>
   <Grid item xs={2}>
     <AiFillDelete onClick={()=>{
@@ -54,6 +53,8 @@ export default function Task({b,id}){
   </Grid>
   
 </Grid>
+
+
             
         
         </div>
