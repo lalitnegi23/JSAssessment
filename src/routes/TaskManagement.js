@@ -126,7 +126,7 @@ export default function TaskManagement() {
         </form>
    
         <NavLink to="/dashboard">Go To Dashboard</NavLink>
-   <TaskPlayGround/>
+   <TaskPlayGround setFormValues={setFormValues}/>
         </>
     )
 }

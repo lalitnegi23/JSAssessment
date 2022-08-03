@@ -6,7 +6,7 @@ import {Dialog,DialogActions,DialogTitle,DialogContent,DialogContentText} from "
 import { removeBackLogListAction, removeDoneListAction, removeOngoingListAction, removeTodoListAction } from "../actions/removeFromListAction";
 
 import {useSelector, useDispatch} from 'react-redux';
-export default function Task({b,id}){
+export default function Task({b,id,forEditing}){
 
     const dispatch = useDispatch();
 
@@ -33,10 +33,18 @@ export default function Task({b,id}){
   <p>{b?.name}</p>
   </Grid>
   <Grid item xs={2}>
-  <AiFillEdit />
+  <AiFillEdit 
+//   onClick={()=>{
+//     b.editing="true"
+//     forEditing?.setFormValues(b)
+//   }} 
+  style={{cursor:"pointer"}}
+  />
   </Grid>
   <Grid item xs={2}>
     <AiFillDelete onClick={()=>{
+    
+        
         if(b?.stage==="todo"){
             dispatch(removeTodoListAction(b))
         }

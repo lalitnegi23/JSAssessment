@@ -13,7 +13,7 @@ import { useEffect, useState } from "react";
 import {saveBackLogListAction, saveDoneListAction, saveOngoingListAction, saveTodoListAction} from "../actions/saveListAction";
 import  { removeBackLogListAction, removeDoneListAction, removeOngoingListAction, removeTodoListAction } from "../actions/removeFromListAction";
 
-export default function TaskPlayGround(){
+export default function TaskPlayGround(props){
 
     const tasksList = useSelector(state => state?.createTaskReducer?.tasks)
     const bLogList = useSelector(state => state?.saveListReducer?.backlogList)
@@ -182,7 +182,7 @@ export default function TaskPlayGround(){
         {bLogList?.map((b,index)=>{
             return(
                 <>
-                <Task key={index} b={b} id={index}/>
+                <Task key={index} b={b} id={index} forEditing={props}/>
                 </>
             )
             
